@@ -1,0 +1,96 @@
+Title: Galeri
+Author: Taufik Nurrohman
+URL: http://latitudu.com
+Version: 1.0.0
+
+====
+
+> Galeri gambar.
+
+Gambar mini akan dibuat secara otomatis oleh plugin [thumbnail](http://mecha-cms.com/article/thumbnail-plugin "Thumbnail Plugin") sebisa mungkin, jika tersedia.
+
+#### Galeri Gambar Sederhana
+
+~~~ .no-highlight
+`{{gallery}}`
+  [1]: gambar-1.jpg
+  [2]: gambar-2.jpg
+  [3]: gambar-3.jpg
+`{{/gallery}}`
+~~~
+
+#### Dengan Judul Gambar
+
+~~~ .no-highlight
+`{{gallery}}`
+  [1]: gambar-1.jpg "Judul 1"
+  [2]: gambar-2.jpg "Judul 2"
+  [3]: gambar-3.jpg "Judul 3"
+`{{/gallery}}`
+~~~
+
+#### Gambar Mini Manual
+
+~~~ .no-highlight
+`{{gallery}}`
+  [1]: gambar-1.jpg | t-1.jpg "Judul 1"
+  [2]: gambar-2.jpg | t-2.jpg "Judul 2"
+  [3]: gambar-3.jpg | t-3.jpg "Judul 3"
+`{{/gallery}}`
+~~~
+
+#### Kelas Kustom
+
+##### Metode 1
+
+~~~ .no-highlight
+`{{gallery.foto.keluarga}}`
+  [1]: gambar-1.jpg "Judul 1"
+  [2]: gambar-2.jpg "Judul 2"
+  [3]: gambar-3.jpg "Judul 3"
+`{{/gallery}}`
+~~~
+
+Hasil:
+
+~~~ .html
+<div class="p gallery gallery-foto gallery-keluarga">
+  <div class="image-group">
+    …
+  </div>
+</div>
+~~~
+
+##### Metode 2
+
+~~~ .no-highlight
+`{{gallery class="foto keluarga"}}`
+  [1]: gambar-1.jpg "Judul 1"
+  [2]: gambar-2.jpg "Judul 2"
+  [3]: gambar-3.jpg "Judul 3"
+`{{/gallery}}`
+~~~
+
+Hasil:
+
+~~~ .html
+<div class="p gallery foto keluarga">
+  <div class="image-group">
+    …
+  </div>
+</div>
+~~~
+
+#### Lebar dan Tinggi Gambar Kustom
+
+~~~ .no-highlight
+`{{gallery width="200" height="150"}}`
+  [1]: gambar-1.jpg "Judul 1"
+  [2]: gambar-2.jpg "Judul 2"
+  [3]: gambar-3.jpg "Judul 3"
+`{{/gallery}}`
+~~~
+
+Atribut yang lain akan diperlakukan sebagai atribut HTML normal.
+
+<!-- block:donate -->

@@ -1,0 +1,16 @@
+plugin_gallery:
+  title:
+    button: Galeri
+    modal: Tambahkan <abbr title="Uniform Resource Locator">URL</abbr> dan Judul Gambar
+    thumbnail:
+      w: Lebar Gambar Mini
+      h: Tinggi Gambar Mini
+    lightbox: <em>Lightbox</em>
+    lightboxes:
+      simple: Sederhana
+      baguetteBox: BaguetteBox
+    css: <abbr title="Cascading Style Sheet">CSS</abbr>
+  description:
+    thumbnail:
+      w: Pastikan juga untuk memperbaharui nilai <code>width</code> pada <abbr title="Cascading Style Sheet">CSS</abbr>.
+      h: Pastikan juga untuk memperbaharui nilai <code>height</code> pada <abbr title="Cascading Style Sheet">CSS</abbr>.

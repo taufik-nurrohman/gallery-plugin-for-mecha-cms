@@ -1,0 +1,1 @@
+a:2:{s:9:"thumbnail";a:2:{s:1:"w";i:72;s:1:"h";i:72;}s:8:"lightbox";s:6:"simple";}

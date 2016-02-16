@@ -1,0 +1,16 @@
+plugin_gallery:
+  title:
+    button: Gallery
+    modal: Add Images <abbr title="Uniform Resource Locator">URL</abbr> and Title
+    thumbnail:
+      w: Thumbnail Width
+      h: Thumbnail Height
+    lightbox: Lightbox
+    lightboxes:
+      simple: Simple
+      baguetteBox: BaguetteBox
+    css: <abbr title="Cascading Style Sheet">CSS</abbr>
+  description:
+    thumbnail:
+      w: Make sure to update item <code>width</code> value in the <abbr title="Cascading Style Sheet">CSS</abbr> too.
+      h: Make sure to update item <code>height</code> value in the <abbr title="Cascading Style Sheet">CSS</abbr> too.
