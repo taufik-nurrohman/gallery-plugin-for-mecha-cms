@@ -29,9 +29,9 @@ Image thumbnails will be generated automatically by the [thumbnail](http://mecha
 
 ~~~ .no-highlight
 {{gallery}}
-  [1]: image-1.jpg | t-1.jpg "Caption 1"
-  [2]: image-2.jpg | t-2.jpg "Caption 2"
-  [3]: image-3.jpg | t-3.jpg "Caption 3"
+  [1]: image-1.jpg | t/image-1.jpg "Caption 1"
+  [2]: image-2.jpg | t/image-2.jpg "Caption 2"
+  [3]: image-3.jpg | t/image-3.jpg "Caption 3"
 {{/gallery}}
 ~~~
 
@@ -88,3 +88,34 @@ Result:
 ~~~
 
 Other attributes will be treated as normal HTML attributes.
+
+### Automatic Image Gallery
+
+~~~ .no-highlight
+{{gallery path="path/to/folder"}}
+~~~
+
+~~~ .no-highlight
+`{{gallery path="path/to/folder"}}`
+  [0]: image-0.jpg "Default Image"
+`{{/gallery}}`
+~~~
+
+You can add custom image title and description in a `txt` file with the same name as the image name, stored in the same folder:
+
+~~~ .no-highlight
+path/to/folder/
+├── image-1.jpg
+├── image-1.txt
+└── t/
+    └── image-1.jpg
+~~~
+
+Content of `image-1.txt`:
+
+~~~ .no-highlight
+Title: Image Title
+Description: Image description.
+~~~
+
+Manual thumbnail files can be stored in the `t` folder.

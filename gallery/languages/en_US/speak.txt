@@ -1,7 +1,7 @@
 plugin_gallery:
   title:
     button: Gallery
-    modal: Add Images <abbr title="Uniform Resource Locator">URL</abbr> and Title
+    modal: Add Image <abbr title="Uniform Resource Locator">URL</abbr> and Title
     thumbnail:
       w: Thumbnail Width
       h: Thumbnail Height

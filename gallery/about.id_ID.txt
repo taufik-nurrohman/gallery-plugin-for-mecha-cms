@@ -1,7 +1,7 @@
 Title: Galeri
 Author: Taufik Nurrohman
 URL: http://latitudu.com
-Version: 1.0.0
+Version: 1.1.0
 
 ====
 
@@ -33,9 +33,9 @@ Gambar mini akan dibuat secara otomatis oleh plugin [thumbnail](http://mecha-cms
 
 ~~~ .no-highlight
 `{{gallery}}`
-  [1]: gambar-1.jpg | t-1.jpg "Judul 1"
-  [2]: gambar-2.jpg | t-2.jpg "Judul 2"
-  [3]: gambar-3.jpg | t-3.jpg "Judul 3"
+  [1]: gambar-1.jpg | t/gambar-1.jpg "Judul 1"
+  [2]: gambar-2.jpg | t/gambar-2.jpg "Judul 2"
+  [3]: gambar-3.jpg | t/gambar-3.jpg "Judul 3"
 `{{/gallery}}`
 ~~~
 
@@ -92,5 +92,36 @@ Hasil:
 ~~~
 
 Atribut yang lain akan diperlakukan sebagai atribut HTML normal.
+
+#### Galeri Gambar Otomatis
+
+~~~ .no-highlight
+`{{gallery path="jalur/ke/folder"}}`
+~~~
+
+~~~ .no-highlight
+`{{gallery path="jalur/ke/folder"}}`
+  [0]: gambar-0.jpg "Gambar Cadangan"
+`{{/gallery}}`
+~~~
+
+Anda bisa menambahkan judul dan deskripsi gambar kustom di dalam berkas `txt` dengan nama yang sama seperti nama gambar, tersimpan di dalam folder yang sama:
+
+~~~ .no-highlight
+jalur/ke/folder/
+├── gambar-1.jpg
+├── gambar-1.txt
+└── t/
+    └── gambar-1.jpg
+~~~
+
+Isi dari `gambar-1.txt`:
+
+~~~ .no-highlight
+Title: Judul Gambar
+Description: Deskripsi gambar.
+~~~
+
+Berkas gambar mini manual dapat Anda simpan di dalam folder `t`.
 
 <!-- block:donate -->

@@ -1,6 +1,13 @@
 (function(w, d, base) {
     if (!base.composer) return;
-    var speak = base.languages;
+    var N = '\n',
+        NN = N + N,
+        tab = typeof TAB !== "undefined" ? TAB : '  ',
+        speak = base.languages;
+    // check for image
+    function is_image(v) {
+        return v.length && (v.indexOf('://') !== -1 || v.match(/\.(bmp|gif|jpe?g|png|webp)$/i));
+    }
     // remove field
     function remove(parent) {
         if (parent.children.length > 1) {
@@ -24,21 +31,24 @@
         }
         url.placeholder = s.image_url;
         title.placeholder = s.image_title;
-        url.onkeydown = function(e) {
-            var k = editor.key(e);
-            if (!this.value.length && k === 'backspace') return remove(parent), false;
-            if (k === 'escape') return base.composer.exit(true), false;
+        editor.event("keydown", url, function(e) {
+            var grip = editor.grip,
+                v = this.value,
+                k = grip.key(e);
+            if (!v.length && k === 'backspace') return remove(parent), false;
+            if (k === 'escape') return editor.exit(true), false;
             if (k === 'arrowright' || k === ' ') return this.nextSibling.focus(), false;
-            if (e.ctrlKey && k === 'enter' || !this.value.length && k === 'enter') return insert(parent, editor), false;
+            if (k === 'enter' && (e.ctrlKey || !is_image(v))) return insert(parent, editor), false;
             if (k === 'enter') return add(parent, editor), false;
-        };
-        title.onkeydown = function(e) {
-            var k = editor.key(e);
-            if (k === 'escape') return base.composer.exit(true), false;
-            if (k === 'arrowleft' || !this.value.length && k === 'backspace') return this.previousSibling.focus(), false;
-            if (e.ctrlKey && k === 'enter' || !this.value.length && k === 'enter') return insert(parent, editor), false;
+        });
+        editor.event("keydown", title, function(e) {
+            var v = this.value,
+                k = editor.grip.key(e);
+            if (k === 'escape') return editor.exit(true), false;
+            if (k === 'arrowleft' || !v.length && k === 'backspace') return this.previousSibling.focus(), false;
+            if (k === 'enter' && (e.ctrlKey || !v.length)) return insert(parent, editor), false;
             if (k === 'enter') return add(parent, editor), false;
-        };
+        });
         wrap.appendChild(url);
         wrap.appendChild(title);
         parent.appendChild(wrap);
@@ -49,55 +59,71 @@
     }
     // insert shortcode
     function insert(parent, editor) {
-        var item = parent.children,
-            tab = typeof TAB !== "undefined" ? TAB : '  ',
-            out = '\n', url, end, child;
+        var grip = editor.grip,
+            item = parent.children,
+            out = N, url, end, child;
+        if (item.length <= 2) {
+            var url = item[0].children[0].value,
+                x = item[1] ? item[1].children[0].value : "";
+            if (url.length && !is_image(url) && !x) {
+                return grip.tidy(NN, function() {
+                    grip.insert('{{gallery path="' + url + '"}}', function() {
+                        var s = grip.selection();
+                        if (!s.after.length) grip.area.value += NN;
+                        grip.select(s.end + 2, true);
+                    });
+                }, NN, true), false;
+            }
+        }
+        var alt = 1;
         for (var i = 0, len = item.length; i < len; ++i) {
             child = item[i].children;
-            if (!child[0].value.length) continue;
+            if (!is_image(child[0].value)) continue;
             url = ' ' + child[0].value.replace(/\s/g, '+').replace(/\|/g, '%7C');
             end = child[1].value.length ? ' "' + child[1].value.replace(/"/g, '&quot;') + '"' : "";
-            out += tab + '[' + (i + 1) + ']:' + url + end + '\n';
+            out += tab + '[' + alt + ']:' + url + end + N;
+            alt++;
         }
-        return out === '\n' ? base.composer.exit(true) : editor.tidy('\n\n', function() {
-            editor.insert('{{gallery}}' + out + '{{/gallery}}', function() {
-                var s = editor.selection();
-                if (!s.after.length) editor.area.value += '\n\n';
-                editor.select(s.end + 2, true);
+        return out === N ? editor.exit(true) : grip.tidy(NN, function() {
+            grip.insert('{{gallery}}' + out + '{{/gallery}}', function() {
+                var s = grip.selection();
+                if (!s.after.length) grip.area.value += NN;
+                grip.select(s.end + 2, true);
             });
-        }, '\n\n', true), false;
+        }, NN, true), false;
     }
     // show modal
     function form(e, editor) {
-        var btn = speak.MTE.actions,
-            s = editor.grip.selection();
+        var grip = editor.grip,
+            btn = speak.MTE.actions,
+            s = grip.selection();
         if (s.value.length) {
-            return editor.grip.tidy('\n\n', function() {
-                editor.grip.wrap('{{gallery}}\n', '\n{{/gallery}}', function() {
-                    editor.grip.replace(/^\s*|\s*$/g, "", function() {
-                        editor.grip.replace(/\n+/g, '\n');
-                    });
-                }), false;
-            }, '\n\n', true);
+            return grip.tidy(NN, function() {
+                var noop = function() {};
+                grip.wrap('{{gallery}}' + N, N + '{{/gallery}}', noop);
+                grip.replace(/^\s*|\s*$/g, "", noop);
+                grip.replace(/\n+/g, N, noop);
+                grip.replace(/^\s*/gm, tab);
+            }, NN, true);
         }
         editor.modal('gallery', function(overlay, modal, header, content, footer) {
             header.innerHTML = speak.plugin_gallery.title.modal;
-            add(content, editor.grip);
+            add(content, editor);
             var o = d.createElement('button'),
                 c = d.createElement('button'),
                 a = d.createElement('button');
             o.innerHTML = btn.ok;
             c.innerHTML = btn.cancel;
             a.innerHTML = '<i class="fa fa-clone"></i>';
-            o.onclick = function() {
-                return insert(content, editor.grip), false;
-            };
-            c.onclick = function() {
+            editor.event("click", o, function() {
+                return insert(content, editor), false;
+            });
+            editor.event("click", c, function() {
                 return editor.exit(true), false;
-            };
-            a.onclick = function() {
-                return add(content, editor.grip), false;
-            };
+            });
+            editor.event("click", a, function() {
+                return add(content, editor), false;
+            });
             footer.appendChild(o);
             footer.appendChild(c);
             footer.appendChild(a);
