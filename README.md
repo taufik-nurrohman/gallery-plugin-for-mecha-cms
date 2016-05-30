@@ -96,9 +96,9 @@ Other attributes will be treated as normal HTML attributes.
 ~~~
 
 ~~~ .no-highlight
-`{{gallery path="path/to/folder"}}`
+{{gallery path="path/to/folder"}}
   [0]: image-0.jpg "Default Image"
-`{{/gallery}}`
+{{/gallery}}
 ~~~
 
 You can add custom image title and description in a `txt` file with the same name as the image name, stored in the same folder:
